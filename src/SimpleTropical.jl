@@ -2,12 +2,13 @@
 
 module SimpleTropical
 
-import Base.isinf, Base.show, Base.promote_rule
+import Base.isinf, Base.show, Base.+, Base.*, Base.inv, Base.==
+import Base.isequal
 
 export Tropical, TropicalInf
 
 immutable Tropical{T<:Real} <: Number
-  x::T
+  val::T
   inf_flag::Bool
 
 
@@ -21,20 +22,76 @@ immutable Tropical{T<:Real} <: Number
 end
 
 Tropical{T<:Real}(x::T) = Tropical{T}(x)
+function Tropical{T<:Real}(x::T, i::Bool)
+  if i
+    return Tropical{T}(zero(T),true)
+  end
+  return Tropical(x)
+end
+
+
 const TropicalInf = Tropical{Bool}(0,true)
 
-isinf(x::Tropical) = x.inf_flag
+isinf(X::Tropical) = X.inf_flag
 
-promote_rule{S<:Real, T<:Real}(::Type{Tropical{S}},::Type{Tropical{T}}) = Tropical{promote_type(S,T)}
+
+# It's pretty clear I don't understand promotion rules. So I've made
+# workarounds elsewhere in the code.
+#
+# promote_rule{S<:Real, T<:Real}(::Type{Tropical{S}},::Type{Tropical{T}}) =
+# Tropical{promote_type(S,T)}
 
 
 function show(io::IO, t::Tropical)
   if isinf(t)
-    print(io,"Tropical($(Char(8734)))")
+    print(io,"Tropical($(Char(8734)))")  # infinity character
   else
-    print(io,"Tropical{$(typeof(t.x))}($(t.x))")
+    print(io,"Tropical{$(typeof(t.val))}($(t.val))")
   end
 end
+
+function (+)(X::Tropical, Y::Tropical)
+  x,y = promote(X.val,Y.val)
+
+  if isinf(X)
+    if isinf(Y)   # when X,Y both are infinite
+      z = zero(typeof(x))
+      return Tropical(z,true)  # create common infinite
+    else
+      return Tropical(y)
+    end
+  end
+
+  if isinf(Y)
+    return Tropical(x)
+  end
+
+  return Tropical(min(x,y))
+end
+
+function (*)(X::Tropical, Y::Tropical)
+  x,y = promote(X.val, Y.val)
+  if isinf(X) || isinf(Y)
+    return Tropical(zero(typeof(x)),true)
+  end
+
+  return Tropical(x+y)
+end
+
+function inv(X::Tropical)
+  @assert !isinf(X) "TropicalInf is not invertible"
+  return Tropical(-X.val)
+end
+
+
+function isequal(X::Tropical, Y::Tropical)
+  if isinf(X)
+    return isinf(Y)
+  end
+  return X.val == Y.val
+end
+
+==(X::Tropical,Y::Tropical) = isequal(X,Y)
 
 
 end # end of module
