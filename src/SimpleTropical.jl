@@ -3,7 +3,7 @@
 module SimpleTropical
 
 import Base.isinf, Base.show, Base.+, Base.*, Base.inv, Base.==
-import Base.isequal, Base.^
+import Base.isequal, Base.^, Base.convert
 
 export Tropical, TropicalInf
 
@@ -29,7 +29,10 @@ function Tropical{T<:Real}(x::T, i::Bool)
   return Tropical(x)
 end
 
-
+"""
+`TropicalInf` is a constant that represents infinity in the tropical
+semiring.
+"""
 const TropicalInf = Tropical{Bool}(0,true)
 
 isinf(X::Tropical) = X.inf_flag
@@ -69,6 +72,8 @@ function (+)(X::Tropical, Y::Tropical)
   return Tropical(min(x,y))
 end
 
+
+
 function (*)(X::Tropical, Y::Tropical)
   x,y = promote(X.val, Y.val)
   if isinf(X) || isinf(Y)
@@ -77,6 +82,17 @@ function (*)(X::Tropical, Y::Tropical)
 
   return Tropical(x+y)
 end
+
+
+(+)(X::Tropical, Y::Real) = X+Tropical(Y)
+(+)(X::Real, Y::Tropical) = Tropical(X)+Y
+
+(*)(X::Bool, Y::Tropical) = Tropical(X)*Y
+(*)(X::Tropical, Y::Real) = X*Tropical(Y)
+(*)(X::Real, Y::Tropical) = Tropical(X)*Y
+
+convert(::Type{Tropical}, x::Real) = Tropical{typeof(x)}(x)
+
 
 function inv(X::Tropical)
   @assert !isinf(X) "TropicalInf is not invertible"
