@@ -3,7 +3,7 @@
 module SimpleTropical
 
 import Base.isinf, Base.show, Base.+, Base.*, Base.inv, Base.==
-import Base.isequal
+import Base.isequal, Base.^
 
 export Tropical, TropicalInf
 
@@ -81,6 +81,15 @@ end
 function inv(X::Tropical)
   @assert !isinf(X) "TropicalInf is not invertible"
   return Tropical(-X.val)
+end
+
+function (^)(X::Tropical, p::Integer)
+  if isinf(X)
+    @assert p>0 "Cannot raise tropical infinity to a nonpositive power."
+    return X
+  end
+
+  return Tropical(X.val * p)
 end
 
 

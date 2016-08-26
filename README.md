@@ -58,10 +58,13 @@ julia> inv(TropicalInf)
 ERROR: AssertionError: TropicalInf is not invertible
 ```
 
-Exponentiation by *positive* integers works:
+Exponentiation by integers works:
 ```julia
 julia> x^10
 Tropical{Float64}(35.0)
+
+julia> x^-2
+Tropical{Float64}(-7.0)
 ```
 
 ## Predicates
@@ -86,7 +89,7 @@ true
 
 ## To do list
 
-+ Exponentiation with any nonnegative powers.
 + Figure out how to make promotion/conversion stuff work
 including expressions like `2 + Tropical(3)` should return `Tropical(3)`
 and `2 * Tropical(3)` should return `Tropical(5)`.
++ Make the `Polynomials` module work with tropical numbers.
