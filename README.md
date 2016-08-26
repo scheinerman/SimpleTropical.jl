@@ -1,6 +1,6 @@
 # SimpleTropical
 
-This is an implementation of tropical (max-sum) arithmetic in Julia.
+This is an implementation of tropical (min-plus) arithmetic in Julia.
 
 ## Numbers
 
