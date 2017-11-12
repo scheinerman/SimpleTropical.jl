@@ -7,12 +7,12 @@ import Base.isequal, Base.^, Base.convert
 
 export Tropical, TropicalInf
 
-immutable Tropical{T<:Real} <: Number
+struct Tropical{T<:Real} <: Number
   val::T
   inf_flag::Bool
 
 
-  function Tropical(xx::Real, ii::Bool=false)
+  function Tropical{T}(xx::Real, ii::Bool=false) where T
     TT = typeof(xx)
     if isinf(xx) || ii
       return new(zero(TT),true)
