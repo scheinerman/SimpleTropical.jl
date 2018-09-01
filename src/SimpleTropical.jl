@@ -21,8 +21,8 @@ struct Tropical{T<:Real} <: Number
   end
 end
 
-Tropical{T<:Real}(x::T) = Tropical{T}(x)
-function Tropical{T<:Real}(x::T, i::Bool)
+Tropical(x::T) where T<:Real = Tropical{T}(x)
+function Tropical(x::T, i::Bool) where T<:Real
   if i
     return Tropical{T}(zero(T),true)
   end

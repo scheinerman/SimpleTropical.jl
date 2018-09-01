@@ -1,5 +1,15 @@
 # SimpleTropical
 
+
+
+[![Build Status](https://travis-ci.org/scheinerman/SimpleTropical.jl.svg?branch=master)](https://travis-ci.org/scheinerman/SimpleTropical.jl)
+
+[![Coverage Status](https://coveralls.io/repos/scheinerman/SimpleTropical.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/scheinerman/SimpleTropical.jl?branch=master)
+
+[![codecov.io](http://codecov.io/github/scheinerman/SimpleTropical.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/SimpleTropical.jl?branch=master)
+
+
+
 This is an implementation of tropical (min-plus) arithmetic in Julia.
 
 ## Numbers
@@ -28,7 +38,7 @@ Tropical(∞)
 
 ## Arithmetic
 
-The `+` operation is defined as the max of the two values and `*`
+The `+` operation is defined as the min of the two values and `*`
 as the sum:
 ```julia
 julia> x+y
