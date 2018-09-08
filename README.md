@@ -99,7 +99,4 @@ true
 
 ## To do list
 
-+ Figure out how to make promotion/conversion stuff work
-including expressions like `2 + Tropical(3)` should return `Tropical(3)`
-and `2 * Tropical(3)` should return `Tropical(5)`.
 + Make the `Polynomials` module work with tropical numbers.
