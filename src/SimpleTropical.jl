@@ -11,7 +11,6 @@ struct Tropical{T<:Real} <: Number
   val::T
   inf_flag::Bool
 
-
   function Tropical{T}(xx::Real, ii::Bool=false) where T
     TT = typeof(xx)
     if isinf(xx) || ii
@@ -37,13 +36,14 @@ const TropicalInf = Tropical{Bool}(0,true)
 
 isinf(X::Tropical) = X.inf_flag
 
+Base.promote_rule(::Type{Tropical{T}}, ::Type{S}) where {T<:Real, S<:Real} =
+    Tropical{promote_type(T, S)}
+Base.promote_rule(::Type{Tropical{T}}, ::Type{Tropical{S}}) where {T<:Real, S<:Real} =
+    Tropical{promote_type(T, S)}
 
-# It's pretty clear I don't understand promotion rules. So I've made
-# workarounds elsewhere in the code.
-#
-# promote_rule{S<:Real, T<:Real}(::Type{Tropical{S}},::Type{Tropical{T}}) =
-# Tropical{promote_type(S,T)}
-
+convert(::Type{Tropical}, x::T) where {T<:Real} = Tropical{T}(x)
+convert(::Type{Tropical{T}}, x::S) where {T<:Real,S<:Tropical} =
+    Tropical(convert(T, x.val), x.inf_flag)
 
 function show(io::IO, t::Tropical)
   if isinf(t)
@@ -53,46 +53,35 @@ function show(io::IO, t::Tropical)
   end
 end
 
-function (+)(X::Tropical, Y::Tropical)
-  x,y = promote(X.val,Y.val)
-
-  if isinf(X)
-    if isinf(Y)   # when X,Y both are infinite
-      z = zero(typeof(x))
-      return Tropical(z,true)  # create common infinite
+function (+)(x::Tropical{T}, y::Tropical{T}) where {T}
+  if isinf(x)
+    if isinf(y)   # when X,Y both are infinite
+      return Tropical(zero(T),true)  # create common infinite
     else
       return Tropical(y)
     end
   end
 
-  if isinf(Y)
+  if isinf(y)
     return Tropical(x)
   end
 
-  return Tropical(min(x,y))
+  return Tropical(min(x.val, y.val))
 end
+(+)(x::Tropical{T}, y::Tropical{S}) where {T,S} = +(promote(x, y)...)
+(+)(x::Tropical{T}, y::Real) where T = +(promote(x, y)...)
+(+)(x::Real, y::Tropical{T}) where T = +(promote(x, y)...)
 
-
-
-function (*)(X::Tropical, Y::Tropical)
-  x,y = promote(X.val, Y.val)
-  if isinf(X) || isinf(Y)
-    return Tropical(zero(typeof(x)),true)
+function (*)(x::Tropical{T}, y::Tropical{T}) where {T}
+  if isinf(x) || isinf(y)
+    return Tropical(zero(T),true)
   end
 
-  return Tropical(x+y)
+  return Tropical(x.val + y.val)
 end
-
-
-(+)(X::Tropical, Y::Real) = X+Tropical(Y)
-(+)(X::Real, Y::Tropical) = Tropical(X)+Y
-
-(*)(X::Bool, Y::Tropical) = Tropical(X)*Y
-(*)(X::Tropical, Y::Real) = X*Tropical(Y)
-(*)(X::Real, Y::Tropical) = Tropical(X)*Y
-
-convert(::Type{Tropical}, x::Real) = Tropical{typeof(x)}(x)
-
+(*)(x::Tropical{T}, y::Tropical{S}) where {T,S} = *(promote(x, y)...)
+(*)(x::Tropical{T}, y::Real) where T = *(promote(x, y)...)
+(*)(x::Real, y::Tropical{T}) where T = *(promote(x, y)...)
 
 function inv(X::Tropical)
   @assert !isinf(X) "TropicalInf is not invertible"
@@ -110,13 +99,19 @@ end
 
 
 function isequal(X::Tropical, Y::Tropical)
-  if isinf(X)
-    return isinf(Y)
+  if !isinf(X) && !isinf(Y)
+      return isequal(X.val, Y.val)
+  else
+      return isinf(X) && isinf(Y)
   end
-  return X.val == Y.val
 end
 
-==(X::Tropical,Y::Tropical) = isequal(X,Y)
-
+function ==(X::Tropical, Y::Tropical)
+  if !isinf(X) && !isinf(Y)
+      return X.val == Y.val
+  else
+      return isinf(X) && isinf(Y)
+  end
+end
 
 end # end of module
