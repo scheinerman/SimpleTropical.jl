@@ -3,7 +3,7 @@
 module SimpleTropical
 
 import Base.isinf, Base.show, Base.+, Base.*, Base.inv, Base.==
-import Base.isequal, Base.^, Base.convert
+import Base.isequal, Base.^, Base.convert, Base.zero
 
 export Tropical, TropicalInf
 
@@ -52,6 +52,8 @@ function show(io::IO, t::Tropical)
     print(io,"Tropical{$(typeof(t.val))}($(t.val))")
   end
 end
+
+zero(x::Tropical) = TropicalInf
 
 function (+)(x::Tropical{T}, y::Tropical{T}) where {T}
   if isinf(x)
