@@ -31,18 +31,18 @@ inf = TropicalInf
 end
 
 @testset "Sum" begin
-    @test x+y == Tropical(3.5)
-    @test x+inf == x
-    @test inf+y == y
+    @test x + y == Tropical(3.5)
+    @test x + inf == x
+    @test inf + y == y
 end
 
 @testset "Product" begin
     z = Tropical(0)
-    @test x*y == Tropical(7.5)
-    @test x*z == x
-    @test y*z == y
-    @test inf*x == inf
-    @test y*inf == inf
+    @test x * y == Tropical(7.5)
+    @test x * z == x
+    @test y * z == y
+    @test inf * x == inf
+    @test y * inf == inf
 end
 
 @testset "Inv and power" begin
@@ -62,4 +62,15 @@ end
     @test convert(Tropical{Int}, y) === y
     @test convert(Tropical{Float32}, x) === Tropical(convert(Float32, x.val))
     @test convert(Tropical{Float64}, inf) === Tropical{Float64}(0.0, true)
+end
+
+@testset "Identity Elements" begin
+    a = Tropical(5)
+    @test a + zero(a) == a
+    @test a * one(a) == a
+
+    x = ones(Tropical, 5)
+    y = zeros(Tropical, 5)
+    @test x + y == x
+    @test x .* y == y
 end

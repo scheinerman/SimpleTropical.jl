@@ -73,6 +73,47 @@ julia> x^-2
 Tropical{Float64}(-7.0)
 ```
 
+### Identity elements: `zero` and `one`
+
+The Julia function `zero` normally returns the number zero because that is the
+identity element for addition; likewise, `one` returns the number one because 
+that is the identity element for multiplication.
+
+In tropical arithmetic, these identity elements are `Tropical(∞)` and `Tropical(0)`, 
+respectively. Therefore we define the `zero` and `one` functions to return these values.
+```julia
+julia> a = Tropical(3)
+Tropical{Int64}(3)
+
+julia> zero(a)
+Tropical(∞)
+
+julia> zero(Tropical)
+Tropical(∞)
+
+julia> one(a)
+Tropical{Int64}(0)
+
+julia> one(Tropical)
+Tropical{Int64}(0)
+```
+
+Likewise, the functions `zeros` and `ones` return an array of the appropriate values:
+```julia
+julia> zeros(Tropical,3)
+3-element Vector{Tropical}:
+ Tropical(∞)
+ Tropical(∞)
+ Tropical(∞)
+
+julia> ones(Tropical,3)
+3-element Vector{Tropical}:
+ Tropical{Int64}(0)
+ Tropical{Int64}(0)
+ Tropical{Int64}(0)
+```
+
+
 ## Predicates
 
 Use `isinf(X)` to test if a tropical number is infinity.
