@@ -69,7 +69,7 @@ end
     @test a + zero(a) == a
     @test a * one(a) == a
 
-    x = ones(Tropical, 5)
+    x = ones(Tropical{Int}, 5)
     y = zeros(Tropical, 5)
     @test x + y == x
     @test x .* y == y

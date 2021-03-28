@@ -64,7 +64,7 @@ zero(::Type{Tropical{T}}) where {T} = Tropical(zero(T), true)
 
 one(::Tropical{T}) where {T} = Tropical{T}(0)
 one(::Type{Tropical}) = Tropical(0)
-one(::Type{Tropical{T}}) where {T} = Tropical(T, 0)
+one(::Type{Tropical{T}}) where {T} = Tropical{T}(0)
 
 function (+)(x::Tropical{T}, y::Tropical{T}) where {T}
     if isinf(x)
