@@ -64,7 +64,7 @@ end
     @test convert(Tropical{Float64}, inf) === Tropical{Float64}(0.0, true)
 end
 
-@testset "Identity Elements" begin
+@testset "Identity elements" begin
     a = Tropical(5)
     @test a + zero(a) == a
     @test a * one(a) == a
@@ -73,4 +73,13 @@ end
     y = zeros(Tropical, 5)
     @test x + y == x
     @test x .* y == y
+end
+
+@testset "⊕ and ⊗ notation" begin
+    @test 3 ⊕ 5 == 3
+    @test 3 ⊗ 5 == 8
+
+    @test Inf ⊕ 5 == 5
+    @test Inf ⊗ 5 == Tropical(Inf)
+    @test Inf ⊗ 5 == Inf
 end

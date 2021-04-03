@@ -73,6 +73,22 @@ julia> x^-2
 Tropical{Float64}(-7.0)
 ```
 
+### ⊕ and ⊗ 
+
+The symbols `⊕` and `⊗` may be used instead of `+` and `*` for `Tropical` numbers. In addition, these may be used on `Real` numbers with the result
+being the appropriate `Tropical` number.
+```julia
+julia> 5 ⊕ 2
+Tropical{Int64}(2)
+
+julia> 5 ⊗ 2
+Tropical{Int64}(7)
+```
+
+**Note**: In the REPL, the symbol `⊕` is created by typing `\oplus` and then pressing TAB. Likewise, `⊗` is created as `\otimes` followed by TAB.
+
+
+
 ### Identity elements: `zero` and `one`
 
 The Julia function `zero` normally returns the number zero because that is the

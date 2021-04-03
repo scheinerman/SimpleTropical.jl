@@ -5,7 +5,7 @@ module SimpleTropical
 import Base.isinf, Base.show, Base.+, Base.*, Base.inv, Base.==
 import Base.isequal, Base.^, Base.convert, Base.zero, Base.one
 
-export Tropical, TropicalInf
+export Tropical, TropicalInf, ⊕, ⊗
 
 struct Tropical{T<:Real} <: Number
     val::T
@@ -85,6 +85,8 @@ end
 (+)(x::Tropical{T}, y::Real) where {T} = +(promote(x, y)...)
 (+)(x::Real, y::Tropical{T}) where {T} = +(promote(x, y)...)
 
+
+
 function (*)(x::Tropical{T}, y::Tropical{T}) where {T}
     if isinf(x) || isinf(y)
         return Tropical(zero(T), true)
@@ -95,6 +97,12 @@ end
 (*)(x::Tropical{T}, y::Tropical{S}) where {T,S} = *(promote(x, y)...)
 (*)(x::Tropical{T}, y::Real) where {T} = *(promote(x, y)...)
 (*)(x::Real, y::Tropical{T}) where {T} = *(promote(x, y)...)
+
+(⊕)(x::S, y::T) where {S<:Union{Tropical,Real},T<:Union{Tropical,Real}} =
+    Tropical(x) + Tropical(y)
+(⊗)(x::S, y::T) where {S<:Union{Tropical,Real},T<:Union{Tropical,Real}} =
+    Tropical(x) * Tropical(y)
+
 
 function inv(X::Tropical)
     @assert !isinf(X) "TropicalInf is not invertible"
