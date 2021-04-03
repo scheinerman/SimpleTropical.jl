@@ -149,7 +149,3 @@ true
 julia> Tropical(3.1) != Tropical(3//1)
 true
 ```
-
-## To do list
-
-+ Make the `Polynomials` module work with tropical numbers.
