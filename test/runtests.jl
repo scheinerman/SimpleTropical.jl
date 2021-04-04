@@ -83,3 +83,5 @@ end
     @test Inf ⊗ 5 == Tropical(Inf)
     @test Inf ⊗ 5 == Inf
 end
+
+nothing

@@ -19,10 +19,10 @@ but this is taken care of automatically:
 julia> using SimpleTropical
 
 julia> x = Tropical(3.5)
-Tropical{Float64}(3.5)
+Tropical(3.5)
 
 julia> y = Tropical{Int}(4)
-Tropical{Int64}(4)
+Tropical(4)
 ```
 
 Tropical infinity is available via `TropicalInf`:
@@ -38,27 +38,27 @@ The `+` operation is defined as the min of the two values and `*`
 as the sum:
 ```julia
 julia> x+y
-Tropical{Float64}(3.5)
+Tropical(3.5)
 
 julia> x*y
-Tropical{Float64}(7.5)
+Tropical(7.5)
 ```
 
 The identity element for `+` is `TropicalInf` and the identity
 element for `*` is `Tropical(0)`:
 ``` julia
 julia> x + TropicalInf
-Tropical{Float64}(3.5)
+Tropical(3.5)
 
 julia> x * Tropical(0)
-Tropical{Float64}(3.5)
+Tropical(3.5)
 ```
 
 No elements in tropical arithmetic have additive inverses, but they
 do have multiplicative inverses (except for infinity):
 ```julia
 julia> inv(x)
-Tropical{Float64}(-3.5)
+Tropical(-3.5)
 
 julia> inv(TropicalInf)
 ERROR: AssertionError: TropicalInf is not invertible
@@ -67,10 +67,10 @@ ERROR: AssertionError: TropicalInf is not invertible
 Exponentiation by integers works:
 ```julia
 julia> x^10
-Tropical{Float64}(35.0)
+Tropical(35.0)
 
 julia> x^-2
-Tropical{Float64}(-7.0)
+Tropical(-7.0)
 ```
 
 ### ⊕ and ⊗ 
@@ -79,10 +79,10 @@ The symbols `⊕` and `⊗` may be used instead of `+` and `*` for `Tropical` nu
 being the appropriate `Tropical` number.
 ```julia
 julia> 5 ⊕ 2
-Tropical{Int64}(2)
+Tropical(2)
 
 julia> 5 ⊗ 2
-Tropical{Int64}(7)
+Tropical(7)
 ```
 
 **Note**: In the REPL, the symbol `⊕` is created by typing `\oplus` and then pressing TAB. Likewise, `⊗` is created as `\otimes` followed by TAB.
@@ -99,7 +99,7 @@ In tropical arithmetic, these identity elements are `Tropical(∞)` and `Tropica
 respectively. Therefore we define the `zero` and `one` functions to return these values.
 ```julia
 julia> a = Tropical(3)
-Tropical{Int64}(3)
+Tropical(3)
 
 julia> zero(a)
 Tropical(∞)
@@ -108,10 +108,10 @@ julia> zero(Tropical)
 Tropical(∞)
 
 julia> one(a)
-Tropical{Int64}(0)
+Tropical(0)
 
 julia> one(Tropical)
-Tropical{Int64}(0)
+Tropical(0)
 ```
 
 Likewise, the functions `zeros` and `ones` return an array of the appropriate values:
@@ -124,9 +124,9 @@ julia> zeros(Tropical,3)
 
 julia> ones(Tropical,3)
 3-element Vector{Tropical}:
- Tropical{Int64}(0)
- Tropical{Int64}(0)
- Tropical{Int64}(0)
+ Tropical(0)
+ Tropical(0)
+ Tropical(0)
 ```
 
 
@@ -149,3 +149,30 @@ true
 julia> Tropical(3.1) != Tropical(3//1)
 true
 ```
+
+## Display Style
+
+By default, `Tropical` numbers are displayed in the form `Tropical(xxx)` such as 
+`Tropical(-3)` or `Tropical(∞)`. This behavior can be changed using the function 
+`long_tropical_show`. 
++ `long_tropical_show(true)` gives the default behavior.
++ `long_tropical_show(false)` makes `Tropical` numbers appear as ordinary real numbers.
+
+```julia
+julia> long_tropical_show(false)
+false
+
+julia> 5 ⊕ 2
+2
+
+julia> 5 ⊗ 2
+7
+
+julia> typeof(ans)
+Tropical{Int64}
+```
+Calling `long_tropical_show()` without any arguments returns the current state
+for showing `Tropical` numbers: `true` for the default behavior and `false` 
+for the short display.
+
+
