@@ -1,7 +1,7 @@
 module SimpleTropical
 
 import Base: isinf, show, (+), (*), inv, (==), isequal, (^)
-import Base: convert, zero, one, string
+import Base: convert, zero, one, string, real
 
 
 export Tropical, TropicalInf, ⊕, ⊗, long_tropical_show
@@ -64,6 +64,14 @@ end
 `long_tropical_show()` returns the current state (`true` or `false`).
 """
 long_tropical_show()::Bool = _long_show
+
+export real
+function real(x::Tropical)
+    if isinf(x)
+        return Inf
+    end
+    return x.val
+end
 
 
 function string(x::Tropical{T})::String where T

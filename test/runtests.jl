@@ -84,4 +84,15 @@ end
     @test Inf ⊗ 5 == Inf
 end
 
+@testset "Conversion to real" begin
+    a = Tropical(5)
+    @test real(a) + 1 == 6
+
+    b = TropicalInf
+    @test 1/real(b) == 0.0
+end
+
+
+
+
 nothing
