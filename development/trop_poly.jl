@@ -1,6 +1,6 @@
 using SimpleTropical
 
-import Base: string, show, (+), (*)
+import Base: string, show, (+), (*), (^), (==)
 
 include("scripter.jl")
 
@@ -36,7 +36,7 @@ function _term_string(c::Tropical, k::Int)::String
     return front * "⊗" * "x" * int2sup(k)
 end
 
-function string(p::TropicalPolynomial)
+function string(p::TropicalPolynomial)::String
     if length(p.coef) == 0
         return "∞"
     end
@@ -56,6 +56,8 @@ function string(p::TropicalPolynomial)
     return result
 end
 
+(==)(p::TropicalPolynomial, q::TropicalPolynomial) = p.coef == q.coef
+
 """
     (p::TropicalPolynomial)(x::Number)
 
@@ -73,9 +75,19 @@ function (p::TropicalPolynomial)(x::Number)::Tropical
     return result
 end
 
+# function new_eval(p::TropicalPolynomial, x::Number)::Tropical
+#     if length(p.coef) == 0
+#         return TropicalInf 
+#     end
+#     x = real(x)
+#     vals = (real(ka[2]) + real(ka[1])*x for ka in p.coef)
+
+#     return Tropical(minimum(vals))
+# end
+
 show(io::IO, p::TropicalPolynomial) = print(io, string(p))
 
-function (+)(p::TropicalPolynomial, q::TropicalPolynomial)
+function (+)(p::TropicalPolynomial, q::TropicalPolynomial)::TropicalPolynomial
     cdict = Dict{Int,Tropical}()   # coef's of the sum
 
     all_pows = collect(keys(p.coef)) ∪ collect(keys(q.coef))
@@ -95,7 +107,7 @@ function (+)(p::TropicalPolynomial, q::TropicalPolynomial)
 end
 
 ## Add a constant
-function (+)(p::TropicalPolynomial, a::T) where {T<:Number}
+function (+)(p::TropicalPolynomial, a::T)::TropicalPolynomial where {T<:Number}
     a = Tropical(a)
     q = deepcopy(p)
     if haskey(p.coef, 0)
@@ -108,7 +120,7 @@ end
 (+)(a::T, p::TropicalPolynomial) where {T<:Number} = p + a
 
 ## Multiply by a constant
-function (*)(a::T, p::TropicalPolynomial) where {T<:Number}
+function (*)(a::T, p::TropicalPolynomial)::TropicalPolynomial where {T<:Number}
     a = Tropical(a)
     q = deepcopy(p)
     for k in keys(p.coef)
@@ -124,7 +136,7 @@ end
 Create a new tropical polynomial by increasing all exponents by `dk` (which may be negative).
 Equivalent to `p * x^dk`
 """
-function _shift(p::TropicalPolynomial, dk::Integer)
+function _shift(p::TropicalPolynomial, dk::Integer)::TropicalPolynomial
     q = TropicalPolynomial()
     for k in keys(p.coef)
         q.coef[k + dk] = p.coef[k]
@@ -132,7 +144,7 @@ function _shift(p::TropicalPolynomial, dk::Integer)
     return q
 end
 
-function (*)(p::TropicalPolynomial, q::TropicalPolynomial)
+function (*)(p::TropicalPolynomial, q::TropicalPolynomial)::TropicalPolynomial
     result = TropicalPolynomial()
 
     for k in keys(p.coef)
@@ -142,17 +154,32 @@ function (*)(p::TropicalPolynomial, q::TropicalPolynomial)
     return result
 end
 
+function (^)(p::TropicalPolynomial, n::Integer)
+    @assert n ≥ 0 "Exponent $n may not be negative"
+    q = TropicalPolynomial()
+    for k in keys(p.coef)
+        q.coef[n * k] = p.coef[k]^n
+    end
+    return q
+end
 
 """
-    funk(p::TropicalPolynomial)
+    make_function(p::TropicalPolynomial)
 
 Create a function `f` from reals to reals that evaluates `p` (but uses real numbers 
 as inputs and outputs).
 """
-function funk(p::TropicalPolynomial)
+function make_function(p::TropicalPolynomial)::Function
     function f(x::Real)
         y = p(Tropical(x))
         return real(y)
     end
     return f
 end
+
+"""
+    tropical_x(k::Int = 1)
+
+Create the tropical monomial `0⊗x^k`.
+"""
+tropical_x(k::Int = 1) = TropicalPolynomial([k => 0])
