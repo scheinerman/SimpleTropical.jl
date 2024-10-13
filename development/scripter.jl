@@ -1,11 +1,11 @@
 function _sub_digit(n::Integer)::Char
     chars = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉']
-    return chars[n+1]
+    return chars[n + 1]
 end
 
 function _sup_digit(n::Integer)::Char
     chars = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
-    return chars[n+1]
+    return chars[n + 1]
 end
 
 """
@@ -24,7 +24,6 @@ function _make_script(n::Integer, sub::Bool)
     return neg * _make_script(abs(n), sub)
 end
 
-
 """
     int2sub(n::Integer)::String
 
@@ -40,7 +39,6 @@ x₁₇
 """
 int2sub(n::Integer)::String = _make_script(n, true)
 
-
 """
     int2sup(n::Integer)::String
 
@@ -55,4 +53,3 @@ x⁻²
 ```
 """
 int2sup(n::Integer)::String = _make_script(n, false)
-

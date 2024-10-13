@@ -17,3 +17,7 @@ julia> x4 = "x" * int2sub(4);
 julia> println("(" * x4 * ")" * int2sup(-1))
 (x₄)⁻¹
 ```
+
+## `trop_poly.jl`
+
+Defines a `TropicalPolynomial` type. Basic operations seem to be working ok. 
