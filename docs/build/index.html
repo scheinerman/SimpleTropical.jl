@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>SimpleTropical · SimpleTropical</title><meta name="title" content="SimpleTropical · SimpleTropical"/><meta property="og:title" content="SimpleTropical · SimpleTropical"/><meta property="twitter:title" content="SimpleTropical · SimpleTropical"/><meta name="description" content="Documentation for SimpleTropical."/><meta property="og:description" content="Documentation for SimpleTropical."/><meta property="twitter:description" content="Documentation for SimpleTropical."/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>SimpleTropical</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>SimpleTropical</a><ul class="internal"><li><a class="tocitem" href="#Numbers"><span>Numbers</span></a></li><li><a class="tocitem" href="#Arithmetic"><span>Arithmetic</span></a></li><li><a class="tocitem" href="#Predicates"><span>Predicates</span></a></li><li><a class="tocitem" href="#Display-Style"><span>Display Style</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>SimpleTropical</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>SimpleTropical</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/SimpleTropical.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/SimpleTropical.jl/blob/master/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="SimpleTropical"><a class="docs-heading-anchor" href="#SimpleTropical">SimpleTropical</a><a id="SimpleTropical-1"></a><a class="docs-heading-anchor-permalink" href="#SimpleTropical" title="Permalink"></a></h1><p>This is an implementation of tropical (min-plus) arithmetic in Julia.</p><h2 id="Numbers"><a class="docs-heading-anchor" href="#Numbers">Numbers</a><a id="Numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Numbers" title="Permalink"></a></h2><p>The tropical numbers consist of the real numbers and infinity. The <code>SimpleTropical</code> module defines the <code>Tropical</code> type (which is a subtype of <code>Number</code>). </p><pre><code class="nohighlight hljs">julia&gt; using SimpleTropical
+
+julia&gt; x = Tropical(3.5)
+Tropical(3.5)
+
+julia&gt; y = Tropical{Int}(4)
+Tropical(4)</code></pre><p>Tropical infinity is available via <code>TropicalInf</code>:</p><pre><code class="nohighlight hljs">julia&gt; TropicalInf
+Tropical(∞)</code></pre><h3 id="Conversion-to-real-numbers"><a class="docs-heading-anchor" href="#Conversion-to-real-numbers">Conversion to real numbers</a><a id="Conversion-to-real-numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Conversion-to-real-numbers" title="Permalink"></a></h3><p>To convert a <code>Tropical</code> number to a real number, use <code>real</code>:</p><pre><code class="nohighlight hljs">julia&gt; a = Tropical(5)
+Tropical(5)
+
+julia&gt; a+2
+Tropical(2)
+
+julia&gt; real(a)+2
+7</code></pre><h2 id="Arithmetic"><a class="docs-heading-anchor" href="#Arithmetic">Arithmetic</a><a id="Arithmetic-1"></a><a class="docs-heading-anchor-permalink" href="#Arithmetic" title="Permalink"></a></h2><p>The <code>+</code> operation is defined as the min of the two values and <code>*</code> as the sum:</p><pre><code class="nohighlight hljs">julia&gt; x+y
+Tropical(3.5)
+
+julia&gt; x*y
+Tropical(7.5)</code></pre><p>The identity element for <code>+</code> is <code>TropicalInf</code> and the identity element for <code>*</code> is <code>Tropical(0)</code>:</p><pre><code class="language-julia hljs">julia&gt; x + TropicalInf
+Tropical(3.5)
+
+julia&gt; x * Tropical(0)
+Tropical(3.5)</code></pre><p>No elements in tropical arithmetic have additive inverses, but they do have multiplicative inverses (except for infinity):</p><pre><code class="nohighlight hljs">julia&gt; inv(x)
+Tropical(-3.5)
+
+julia&gt; inv(TropicalInf)
+ERROR: AssertionError: TropicalInf is not invertible</code></pre><p>Exponentiation by integers works:</p><pre><code class="nohighlight hljs">julia&gt; x^10
+Tropical(35.0)
+
+julia&gt; x^-2
+Tropical(-7.0)</code></pre><p>Tropical division is permitted, except one cannot divide by infinity:</p><pre><code class="nohighlight hljs">julia&gt; Tropical(3) / Tropical(2)
+Tropical(1)
+
+julia&gt; Tropical(3) / Tropical(Inf)
+ERROR: AssertionError: TropicalInf is not invertible</code></pre><p>Tropical subtraction is undefined and therefore forbidden.</p><h3 id="and"><a class="docs-heading-anchor" href="#and">⊕ and ⊗</a><a id="and-1"></a><a class="docs-heading-anchor-permalink" href="#and" title="Permalink"></a></h3><p>The symbols <code>⊕</code> and <code>⊗</code> may be used instead of <code>+</code> and <code>*</code> for <code>Tropical</code> numbers. In addition, these may be used on <code>Real</code> numbers with the result being the appropriate <code>Tropical</code> number.</p><pre><code class="nohighlight hljs">julia&gt; 5 ⊕ 2
+Tropical(2)
+
+julia&gt; 5 ⊗ 2
+Tropical(7)</code></pre><p><strong>Note</strong>: In the REPL, the symbol <code>⊕</code> is created by typing <code>\oplus</code> and then pressing TAB. Likewise, <code>⊗</code> is created as <code>\otimes</code> followed by TAB.</p><h3 id="Identity-elements:-zero-and-one"><a class="docs-heading-anchor" href="#Identity-elements:-zero-and-one">Identity elements: <code>zero</code> and <code>one</code></a><a id="Identity-elements:-zero-and-one-1"></a><a class="docs-heading-anchor-permalink" href="#Identity-elements:-zero-and-one" title="Permalink"></a></h3><p>The Julia function <code>zero</code> normally returns the number zero because that is the identity element for addition; likewise, <code>one</code> returns the number one because  that is the identity element for multiplication.</p><p>In tropical arithmetic, these identity elements are <code>Tropical(∞)</code> and <code>Tropical(0)</code>,  respectively. Therefore we define the <code>zero</code> and <code>one</code> functions to return these values.</p><pre><code class="nohighlight hljs">julia&gt; a = Tropical(3)
+Tropical(3)
+
+julia&gt; zero(a)
+Tropical(∞)
+
+julia&gt; zero(Tropical)
+Tropical(∞)
+
+julia&gt; one(a)
+Tropical(0)
+
+julia&gt; one(Tropical)
+Tropical(0)</code></pre><p>Likewise, the functions <code>zeros</code> and <code>ones</code> return an array of the appropriate values:</p><pre><code class="nohighlight hljs">julia&gt; zeros(Tropical,3)
+3-element Vector{Tropical}:
+ Tropical(∞)
+ Tropical(∞)
+ Tropical(∞)
+
+julia&gt; ones(Tropical,3)
+3-element Vector{Tropical}:
+ Tropical(0)
+ Tropical(0)
+ Tropical(0)</code></pre><h2 id="Predicates"><a class="docs-heading-anchor" href="#Predicates">Predicates</a><a id="Predicates-1"></a><a class="docs-heading-anchor-permalink" href="#Predicates" title="Permalink"></a></h2><p>Use <code>isinf(X)</code> to test if a tropical number is infinity.</p><pre><code class="nohighlight hljs">julia&gt; isinf(x)
+false
+
+julia&gt; isinf(TropicalInf)
+true</code></pre><p>The usual comparison operators <code>==</code> and <code>!==</code> work as expected:</p><pre><code class="nohighlight hljs">julia&gt; Tropical(3.0) == Tropical(3)
+true
+
+julia&gt; Tropical(3.1) != Tropical(3//1)
+true</code></pre><p>Likewise, standard ordering comparisons work as expected:</p><pre><code class="nohighlight hljs">julia&gt; Tropical(π) &lt; Tropical(3)
+false
+
+julia&gt; Tropical(π) &gt; Tropical(3)
+true
+
+julia&gt; Tropical(5) &lt; TropicalInf
+true</code></pre><h2 id="Display-Style"><a class="docs-heading-anchor" href="#Display-Style">Display Style</a><a id="Display-Style-1"></a><a class="docs-heading-anchor-permalink" href="#Display-Style" title="Permalink"></a></h2><p>By default, <code>Tropical</code> numbers are displayed in the form <code>Tropical(xxx)</code> such as  <code>Tropical(-3)</code> or <code>Tropical(∞)</code>. This behavior can be changed using the function  <code>long_tropical_show</code>. </p><ul><li><code>long_tropical_show(true)</code> gives the default behavior.</li><li><code>long_tropical_show(false)</code> makes <code>Tropical</code> numbers appear as ordinary real numbers.</li></ul><pre><code class="nohighlight hljs">julia&gt; long_tropical_show(false)
+false
+
+julia&gt; 5 ⊕ 2
+2
+
+julia&gt; 5 ⊗ 2
+7
+
+julia&gt; typeof(ans)
+Tropical{Int64}</code></pre><p>Calling <code>long_tropical_show()</code> without any arguments returns the current state for showing <code>Tropical</code> numbers: <code>true</code> for the default behavior and <code>false</code>  for the short display.</p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.5.0 on <span class="colophon-date" title="Saturday 12 October 2024 12:25">Saturday 12 October 2024</span>. Using Julia version 1.11.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

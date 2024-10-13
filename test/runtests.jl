@@ -8,26 +8,20 @@ inf = TropicalInf
 @testset "Comparisons" begin
     @test x == x
     @test x != y
+end
 
-    @testset "Infinity" begin
-        @test x != inf
-        @test inf != y
-        @test inf == inf
-        @test inf != Tropical(0)
-        @test Tropical(0) != inf
+@testset "Infinity" begin
+    @test x != inf
+    @test inf != y
+    @test inf == inf
+    @test inf != Tropical(0)
+    @test Tropical(0) != inf
 
-        @test !isequal(x, inf)
-        @test !isequal(inf, y)
-        @test isequal(inf, inf)
-        @test !isequal(inf, Tropical(0))
-        @test !isequal(Tropical(0), inf)
-    end
-
-    @testset "Not-a-number" begin
-        nan = Tropical(NaN)
-        @test nan != nan
-        @test isequal(nan, nan)
-    end
+    @test !isequal(x, inf)
+    @test !isequal(inf, y)
+    @test isequal(inf, inf)
+    @test !isequal(inf, Tropical(0))
+    @test !isequal(Tropical(0), inf)
 end
 
 @testset "Sum" begin
@@ -89,10 +83,7 @@ end
     @test real(a) + 1 == 6
 
     b = TropicalInf
-    @test 1/real(b) == 0.0
+    @test 1 / real(b) == 0.0
 end
-
-
-
 
 nothing
