@@ -2,6 +2,8 @@
 
 Stuff that I'm working on that might become part of `SimpleTropical`. 
 
+Goal here is to create tropical polynomials. Might start with single variable, but really want more. 
+
 
 ## `scripter.jl`
 

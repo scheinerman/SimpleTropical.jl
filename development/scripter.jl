@@ -1,5 +1,3 @@
-using SimpleTropical
-
 function _sub_digit(n::Integer)::Char
     chars = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉']
     return chars[n+1]
