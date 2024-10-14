@@ -186,7 +186,25 @@ false
 ```
 
 
+## Roots
+
+*First draft -- more to come. Will explain what we mean by a root of a tropical polynomial.*
+
+To find the roots of a tropical polynomial, use the `roots` function. 
+```
+julia> x = tropical_x();
+
+julia> p = x + (-2)*x^2 + 2*x^3
+0⊗x¹ ⊕ -2⊗x² ⊕ 2⊗x³
+
+julia> roots(p)
+2-element Vector{Tropical{Float64}}:
+ Tropical(-4.0)
+  Tropical(2.0)
+```
+Having some trouble with this function due to round off issues. 
+
+
 ## To Do List
 
-* Implement a `roots` function. This seems feasible.
 * Implement a way to tell if two polynomials are equal as functions. Or find a way to reduce polynomials to a canonical form by eliminating unnecessary terms. Not clear exactly how to do this. 

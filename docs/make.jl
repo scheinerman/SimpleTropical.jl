@@ -5,4 +5,7 @@
 # makedocs(; sitename="SimpleTropical")
 
 using Documenter, SimpleTropical
-makedocs(; pages=["index.md", "Polynomials" => "polys.md"], sitename="SimpleTropical")
+makedocs(;
+    pages=["Tropical Arithmetic" => "index.md", "Tropical Polynomials" => "polys.md"],
+    sitename="SimpleTropical",
+)

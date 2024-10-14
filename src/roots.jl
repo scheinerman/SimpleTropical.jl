@@ -77,7 +77,7 @@ roundoff errors.
 """
 function roots(p::TropicalPolynomial)
     candidates = _candidate_list(p)
-    result =  [x for x in candidates if _test_min_repeat(p, x)]
+    result = [x for x in candidates if _test_min_repeat(p, x)]
     if length(result) == 0
         return Tropical[]
     end

@@ -1,7 +1,7 @@
-# SimpleTropical
+# Tropical Arithmetic
 
 
-This is an implementation of tropical (min-plus) arithmetic in Julia.
+`SimpleTropical` provides an implementation of [tropical](https://en.wikipedia.org/wiki/Tropical_semiring) (min-plus) arithmetic in Julia.
 
 ## Numbers
 
