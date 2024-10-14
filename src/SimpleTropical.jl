@@ -23,6 +23,7 @@ export Tropical,
     coefs,
     long_tropical_show,
     make_function,
+    roots,
     tropical_x,
     ⊕,
     ⊗
@@ -124,5 +125,6 @@ one(::Type{Tropical{T}}) where {T} = Tropical{T}(0)
 include("arith.jl")
 include("compare.jl")
 include("trop_poly.jl")
+include("roots.jl")
 
 end # end of module
