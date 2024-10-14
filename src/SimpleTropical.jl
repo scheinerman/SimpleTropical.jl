@@ -17,7 +17,8 @@ import Base:
     real,
     zero
 
-export Tropical, TropicalInf, ⊕, ⊗, long_tropical_show
+export Tropical,
+    TropicalInf, TropicalPoly, long_tropical_show, make_function, tropical_x, ⊕, ⊗
 
 _long_show = true
 
@@ -62,7 +63,6 @@ A constant that represents infinity in the tropical semiring.
 const TropicalInf = Tropical{Bool}(0, true)
 
 isinf(X::Tropical)::Bool = X.inf_flag
-
 
 """
 `long_tropical_show(t::Bool)` determines the display style for 
@@ -114,8 +114,8 @@ one(::Tropical{T}) where {T} = Tropical{T}(0)
 one(::Type{Tropical}) = Tropical(0)
 one(::Type{Tropical{T}}) where {T} = Tropical{T}(0)
 
-
 include("arith.jl")
 include("compare.jl")
+include("trop_poly.jl")
 
 end # end of module

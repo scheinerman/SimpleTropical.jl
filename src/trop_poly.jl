@@ -1,7 +1,3 @@
-using SimpleTropical
-
-import Base: string, show, (+), (*), (^), (==)
-
 include("scripter.jl")
 
 struct TropicalPolynomial
@@ -55,6 +51,7 @@ function string(p::TropicalPolynomial)::String
     end
     return result
 end
+show(io::IO, p::TropicalPolynomial) = print(io, string(p))
 
 (==)(p::TropicalPolynomial, q::TropicalPolynomial) = p.coef == q.coef
 
@@ -75,7 +72,7 @@ function (p::TropicalPolynomial)(x::Number)::Tropical
     return result
 end
 
-show(io::IO, p::TropicalPolynomial) = print(io, string(p))
+#### ADDITION
 
 function (+)(p::TropicalPolynomial, q::TropicalPolynomial)::TropicalPolynomial
     cdict = Dict{Int,Tropical}()   # coef's of the sum
@@ -108,6 +105,9 @@ function (+)(p::TropicalPolynomial, a::T)::TropicalPolynomial where {T<:Number}
     return q
 end
 (+)(a::T, p::TropicalPolynomial) where {T<:Number} = p + a
+
+(⊕)(p::TropicalPolynomial, a::T) where {T<:Union{Number,TropicalPolynomial}} = p + a
+(⊕)(a::Number, p::TropicalPolynomial) = p + a
 
 ## Multiply by a constant
 function (*)(a::T, p::TropicalPolynomial)::TropicalPolynomial where {T<:Number}
@@ -143,9 +143,14 @@ function (*)(p::TropicalPolynomial, q::TropicalPolynomial)::TropicalPolynomial
     end
     return result
 end
+(⊗)(p::TropicalPolynomial, a::T) where {T<:Union{Number,TropicalPolynomial}} = a * p
+(⊗)(a::Number, p::TropicalPolynomial) = a * p
 
 function (^)(p::TropicalPolynomial, n::Integer)
-    @assert n ≥ 0 "Exponent $n may not be negative"
+    if n < 0
+        throw(DomainError(n, "Exponent may not be negative"))
+    end
+
     q = TropicalPolynomial()
     for k in keys(p.coef)
         q.coef[n * k] = p.coef[k]^n

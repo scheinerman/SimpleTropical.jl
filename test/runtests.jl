@@ -86,4 +86,16 @@ end
     @test 1 / real(b) == 0.0
 end
 
+@testset "Polynomials" begin
+    p = tropical_x() + tropical_x(-1)
+    @test p(2) == Tropical(-2)
+    @test p + p == p
+
+    q = p^2
+    qq = p * p
+    for a in -5:5
+        @test q(a) == qq(a)
+    end
+end
+
 nothing
