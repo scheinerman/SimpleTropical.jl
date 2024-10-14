@@ -45,8 +45,8 @@ end
     @test x^10 == Tropical(35.0)
     @test y^0 == Tropical(0)
     @test inf^5 == inf
-    @test_throws AssertionError inf^-3
-    @test_throws AssertionError inv(inf)
+    @test_throws DomainError inf^-3
+    @test_throws DomainError inv(inf)
 end
 
 @testset "Conversions" begin

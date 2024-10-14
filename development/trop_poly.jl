@@ -75,16 +75,6 @@ function (p::TropicalPolynomial)(x::Number)::Tropical
     return result
 end
 
-# function new_eval(p::TropicalPolynomial, x::Number)::Tropical
-#     if length(p.coef) == 0
-#         return TropicalInf 
-#     end
-#     x = real(x)
-#     vals = (real(ka[2]) + real(ka[1])*x for ka in p.coef)
-
-#     return Tropical(minimum(vals))
-# end
-
 show(io::IO, p::TropicalPolynomial) = print(io, string(p))
 
 function (+)(p::TropicalPolynomial, q::TropicalPolynomial)::TropicalPolynomial
@@ -182,4 +172,4 @@ end
 
 Create the tropical monomial `0⊗x^k`.
 """
-tropical_x(k::Int = 1) = TropicalPolynomial([k => 0])
+tropical_x(k::Int=1) = TropicalPolynomial([k => 0])
