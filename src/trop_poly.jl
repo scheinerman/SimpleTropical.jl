@@ -178,3 +178,10 @@ end
 Create the tropical monomial `0⊗x^k`.
 """
 tropical_x(k::Int=1) = TropicalPolynomial([k => 0])
+
+"""
+    coefs(p::TropicalPolynomial)
+
+Return a dictionary of the coefficients of `p`.
+"""
+coefs(p::TropicalPolynomial) = deepcopy(p.coef)

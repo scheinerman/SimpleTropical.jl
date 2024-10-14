@@ -18,7 +18,14 @@ import Base:
     zero
 
 export Tropical,
-    TropicalInf, TropicalPoly, long_tropical_show, make_function, tropical_x, ⊕, ⊗
+    TropicalInf,
+    TropicalPolynomial,
+    coefs,
+    long_tropical_show,
+    make_function,
+    tropical_x,
+    ⊕,
+    ⊗
 
 _long_show = true
 

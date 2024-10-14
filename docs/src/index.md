@@ -66,7 +66,8 @@ julia> inv(x)
 Tropical(-3.5)
 
 julia> inv(TropicalInf)
-ERROR: AssertionError: TropicalInf is not invertible
+ERROR: DomainError with Tropical(∞):
+TropicalInf is not invertible
 ```
 
 Exponentiation by integers works:
@@ -84,7 +85,8 @@ julia> Tropical(3) / Tropical(2)
 Tropical(1)
 
 julia> Tropical(3) / Tropical(Inf)
-ERROR: AssertionError: TropicalInf is not invertible
+ERROR: DomainError with Tropical(∞):
+TropicalInf is not invertible
 ```
 
 Tropical subtraction is undefined and therefore forbidden.
