@@ -6,6 +6,10 @@
 
 using Documenter, SimpleTropical
 makedocs(;
-    pages=["Tropical Arithmetic" => "index.md", "Tropical Polynomials" => "polys.md"],
-    sitename="SimpleTropical",
+    pages = [
+        "Tropical Arithmetic" => "index.md",
+        "Tropical Polynomials" => "polys.md",
+        "Bonus" => "bonus.md",
+    ],
+    sitename = "SimpleTropical",
 )
