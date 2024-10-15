@@ -5,7 +5,7 @@
 
 There are various ways to create a tropical polynomial. 
 
-#### Empty Sum
+#### Empty sum
 `TropicalPolynomial()` creates a polynomial with no terms:
 ```
 julia> p = TropicalPolynomial()
@@ -89,7 +89,7 @@ Dict{Int64, Tropical} with 3 entries:
 ## Arithmetic
 
 
-#### Addition and Multiplication
+#### Addition and multiplication
 
 Polynomial addition and multiplication can be performed using the usual `+` and `*` operations, though 
 `⊕` and `⊗` may be used instead. If a polynomial is added to (or multiplied by) a real number, that number is automatically converted to `Tropical`.
@@ -188,23 +188,73 @@ false
 
 ## Roots
 
-*First draft -- more to come. Will explain what we mean by a root of a tropical polynomial.*
+#### Background: Roots of a tropical polynomial
 
+Consider the polynomial $p(x) = 1 \oplus (0\otimes x) \oplus (-2 \otimes x^2)$. 
+
+Using real arithmetic, this is $p(x) = \min\{1, 0+x, -2+2x\}$. 
+
+The number $x$ is a root of this polynomial if the value of $p(x)$ is attained two or more times in the list of terms.
+To do this we solve all of the equations: 
+$1=0+x$,
+$1=-2+2x$, and
+$0+x =-2+2x$.
+
+That gives $1$, $\frac32$, and $2$ as possible roots. 
+Substituting we find:
+
+For $x=1$, the values are  $\{1,0,1\}$. This is not a root (repeated value is not the minimum).
+
+For $x=\frac32$, the values are $\{1,1,\frac32\}$. This is a root (repeated value is the minimum).
+ 
+For $x=2$, the values are $\{1,2,2\}$. This is not a root (repeated value is not the minimum).
+
+Therefore, $x=\frac32$ is the only root of the polynomial $p(x) = 1 \oplus (0\otimes x) \oplus (-2 \otimes x^2)$.
+
+
+#### The `roots` function
 To find the roots of a tropical polynomial, use the `roots` function. 
 ```
 julia> x = tropical_x();
 
-julia> p = x + (-2)*x^2 + 2*x^3
-0⊗x¹ ⊕ -2⊗x² ⊕ 2⊗x³
+julia> p = 0 + x + 5x^3
+0⊗x⁰ ⊕ 0⊗x¹ ⊕ 5⊗x³
 
 julia> roots(p)
-2-element Vector{Tropical{Float64}}:
- Tropical(-4.0)
-  Tropical(2.0)
+2-element Vector{Tropical}:
+ Tropical(-5//2)
+     Tropical(0)
 ```
-Having some trouble with this function due to round off issues. 
 
+#### Roundoff issues
+When the polynomials coefficients are exact numbers (i.e., `Integer` or `Rational`) then `roots` returns 
+exact results. However, if the coefficients are floating point numbers, round off issues may occur.
+
+**Example**: Here we find the roots of a polynomial all of whose coefficients are `Integer` type:
+```
+julia> p = -3 + x + (-3)x^2 + x^3
+-3⊗x⁰ ⊕ 0⊗x¹ ⊕ -3⊗x² ⊕ 0⊗x³
+
+julia> roots(p)
+2-element Vector{Tropical{Int64}}:
+ Tropical(-3)
+  Tropical(0)
+```
+
+And now we find the roots of the same polynomial but chaning a coefficient to a floating point number:
+```
+julia> p = -3.0 + x + (-3)x^2 + x^3
+-3.0⊗x⁰ ⊕ 0⊗x¹ ⊕ -3⊗x² ⊕ 0⊗x³
+
+julia> roots(p)
+4-element Vector{Tropical}:
+ Tropical(-3.0)
+   Tropical(-3)
+ Tropical(-0.0)
+    Tropical(0)
+```
+Round off may cause `roots` to miss a root entirely. 
 
 ## To Do List
 
-* Implement a way to tell if two polynomials are equal as functions. Or find a way to reduce polynomials to a canonical form by eliminating unnecessary terms. Not clear exactly how to do this. 
+* Implement a way to tell if two polynomials are equal as functions perhaps by finding a way to reduce polynomials to a canonical form by eliminating unnecessary terms. Not clear exactly how to do this. 

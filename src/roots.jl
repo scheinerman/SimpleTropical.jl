@@ -45,7 +45,7 @@ function _candidate_list(p::TropicalPolynomial)
             b = real(t2[2])
 
             # solve a+jx = b+kx 
-            x = Tropical((b - a) / (j - k))
+            x = Tropical(_solve_aj_bk(a, j, b, k))
 
             push!(result, x)
         end
@@ -53,6 +53,30 @@ function _candidate_list(p::TropicalPolynomial)
 
     return unique(sort(result))
 end
+
+"""
+    _solve_aj_bk(
+    a::S, j::Integer, b::T, k::Integer
+) where {S<:Union{Integer,Rational},T<:Union{Integer,Rational}}
+    a::S,
+    j::Integer,
+    b::T,
+    k::Integer,
+) where {S<:Union{Integer,Rational},T<:Union{Integer,Rational}}
+
+Solve the equation `a + j*x == b + k*y` as accurately as possible.
+"""
+function _solve_aj_bk(
+    a::S, j::Integer, b::T, k::Integer
+) where {S<:Union{Integer,Rational},T<:Union{Integer,Rational}}
+    result = (b - a)//(j - k)
+    if denominator(result) == 1
+        return numerator(result)
+    end
+    return result
+end
+
+_solve_aj_bk(a, j, b, k) = (b - a) / (j - k)
 
 """
     _test_min_repeat(p::TropicalPolynomial, x::Number)::Bool
