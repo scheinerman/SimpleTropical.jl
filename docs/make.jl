@@ -7,8 +7,8 @@
 using Documenter, SimpleTropical
 makedocs(;
     pages = [
-        "Tropical Arithmetic" => "index.md",
-        "Tropical Polynomials" => "polys.md",
+        "index.md",
+        "Polynomials" => "polys.md",
         "Bonus" => "bonus.md",
     ],
     sitename = "SimpleTropical",
