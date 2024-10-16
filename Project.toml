@@ -1,6 +1,6 @@
 name = "SimpleTropical"
 uuid = "4bb1df8b-5095-5c78-a48e-41b8fd09eb95"
-version = "0.3.3"
+version = "0.3.4"
 
 [compat]
 julia = "1"

@@ -1,5 +1,3 @@
-include("scripter.jl")
-
 struct TropicalPolynomial
     coef::Dict{Int,Tropical}
 

@@ -127,6 +127,7 @@ one(::Type{Tropical{T}}) where {T} = Tropical{T}(0)
 
 include("arith.jl")
 include("compare.jl")
+include("scripter.jl")
 include("trop_poly.jl")
 include("roots.jl")
 
