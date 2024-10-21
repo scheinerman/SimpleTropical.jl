@@ -28,8 +28,8 @@ export Tropical,
     ⊕,
     ⊗
 
-public int2sub
-public int2sup
+# public int2sub
+# public int2sup
 
 _long_show = true
 
